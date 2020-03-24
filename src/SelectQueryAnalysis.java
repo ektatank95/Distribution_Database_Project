@@ -59,7 +59,7 @@ public class SelectQueryAnalysis {
             */
 
             try {
-                 query = split[0].toLowerCase();
+                query = split[0].toLowerCase();
                 frequency = Integer.valueOf(split[1]);
             }catch (ArrayIndexOutOfBoundsException e){
                 System.out.println(queryId + "is not specified in format... format is query#frequencyof Query");
@@ -72,7 +72,7 @@ public class SelectQueryAnalysis {
             List<String> tableRequiredByQuery = findTableRequiredByquery(query, allTables);
             List<Query> updateQueryList = null;
             //TODO uncomment after transtional query file is given
-           // findUpdateQueryReleted(tableRequiredByQuery);
+            // findUpdateQueryReleted(tableRequiredByQuery);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost=totalFrequencyCost+weightOfQuery;
             queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, false));
@@ -90,10 +90,10 @@ public class SelectQueryAnalysis {
     }
 
     private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery) {
-       List<Query> allUpdateQueryList=getAllqueryAttiributes(Configuration.Transational_Query_File);
-       List<Query> updatedQueryList=new ArrayList<>();
-       for(Query query:allUpdateQueryList){
-           query.setTranscationalQuery(true);
+        List<Query> allUpdateQueryList=getAllqueryAttiributes(Configuration.Transational_Query_File);
+        List<Query> updatedQueryList=new ArrayList<>();
+        for(Query query:allUpdateQueryList){
+            query.setTranscationalQuery(true);
             Set<String> result = tableRequiredByQuery.stream().distinct().filter(query.getTableUsed()::contains).collect(Collectors.toSet());
             if(result.size()!=0){
                 updatedQueryList.add(query);
