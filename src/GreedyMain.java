@@ -10,15 +10,25 @@ public class GreedyMain {
         //TODO uncomment below line if table name is required
       //  CreateTableRequired.createTable(Configuration.CREATE_TABLE_QUERY_TXT_FILE, stmt);
 
-       // List<Query> allqueryAttiributes = SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE);
         //to check select query data;
-        System.out.println("Before Sorting............");
-        SelectQueryAnalysis.viewQueryListInfo(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE));
-        //SelectQueryAnalysis.sortQueryByweightAndTablesize(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE));
-        System.out.println("-----------------------------------------------------------------------------------------------------");
-        System.out.println("After sorting..........");
-        SelectQueryAnalysis.viewQueryListInfo(SelectQueryAnalysis.sortQueryByweightAndTablesize(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE)));
+        System.out.println("Before Sorting List of Query Information............");
+        List<Query> allqueryWithAttiributes = SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE);
+        SelectQueryAnalysis.viewQueryListInfo(allqueryWithAttiributes);
+
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("After sorting List of Query Information..........");
+        List<Query> allSortedqueryWithAttiributes=SelectQueryAnalysis.sortQueryByweightAndTablesize(allqueryWithAttiributes);
+        SelectQueryAnalysis.viewQueryListInfo(allSortedqueryWithAttiributes);
+
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("Database Node Information before Allocation Starts..........");
+        List<DatabaseNode> databaseNodeList=DatabaseNodeAnalysis.getAllDatabaseNodeInfo(Configuration.DATABASE_INFO);
+       DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeList);
 
 
+         System.out.println("Database Node Information after Allocation done..........");
+         //call  on actual algo
+        List<DatabaseNode> databaseNodeListWithFragment=GreedyAlgo.findAllocationOnDatabaseForQuery(allSortedqueryWithAttiributes,databaseNodeList);
+        DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeListWithFragment);
     }
 }

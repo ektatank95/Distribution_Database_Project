@@ -5,12 +5,23 @@ public class DatabaseNode {
     private double currentLoad;
     private double scaledLoad;
     private List<String> queryList;
+    private List<String> fragmentList;
 
-    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList) {
-        this.serverID=serverID;
-        this.currentLoad=currentLoad;
-        this.scaledLoad=scaledLoad;
-        this.queryList=queryList;
+
+    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList) {
+        this.serverID = serverID;
+        this.currentLoad = currentLoad;
+        this.scaledLoad = scaledLoad;
+        this.queryList = queryList;
+        this.fragmentList = fragmentList;
+    }
+
+    public List<String> getFragmentList() {
+        return fragmentList;
+    }
+
+    public void setFragmentList(List<String> fragmentList) {
+        this.fragmentList = fragmentList;
     }
 
     public String getServerID() {
@@ -43,5 +54,16 @@ public class DatabaseNode {
 
     public void setQueryList(List<String> queryList) {
         this.queryList = queryList;
+    }
+
+    @Override
+    public String toString() {
+        return "DatabaseNode{" +
+                "serverID='" + serverID + '\'' +
+                ", currentLoad=" + currentLoad +
+                ", scaledLoad=" + scaledLoad +
+                ", queryList=" + queryList +
+                ", fragmentList=" + fragmentList +
+                '}';
     }
 }

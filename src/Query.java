@@ -9,13 +9,14 @@ public class Query implements Comparator<Query> {
     private Integer frequency;
     private List<Query> updates;
     private Double weight;
+    private Double restWeight;
     private boolean transcationalQuery;
     private Double sortingParameter;
 
     public Query() {
     }
 
-    public Query(String queryId, String query, Double queryCost, List<String> tableUsed, Integer frequency, List<Query> updates, Double weight, boolean transcationalQuery, Double sortingParameter) {
+    public Query(String queryId, String query, Double queryCost, List<String> tableUsed, Integer frequency, List<Query> updates, Double weight, Double restWeight, boolean transcationalQuery, Double sortingParameter) {
         this.queryId = queryId;
         this.query = query;
         this.queryCost = queryCost;
@@ -23,8 +24,17 @@ public class Query implements Comparator<Query> {
         this.frequency = frequency;
         this.updates = updates;
         this.weight = weight;
+        this.restWeight = restWeight;
         this.transcationalQuery = transcationalQuery;
         this.sortingParameter = sortingParameter;
+    }
+
+    public Double getRestWeight() {
+        return restWeight;
+    }
+
+    public void setRestWeight(Double restWeight) {
+        this.restWeight = restWeight;
     }
 
     public Double getSortingParameter() {
@@ -91,14 +101,6 @@ public class Query implements Comparator<Query> {
         this.queryCost = queryCost;
     }
 
-    public List<String> getTableUsed() {
-        return tableUsed;
-    }
-
-    public void setTableUsed(List<String> tableUsed) {
-        this.tableUsed = tableUsed;
-    }
-
     @Override
     public String toString() {
         return "Query{" +
@@ -109,10 +111,20 @@ public class Query implements Comparator<Query> {
                 ", frequency=" + frequency +
                 ", updates=" + updates +
                 ", weight=" + weight +
+                ", restWeight=" + restWeight +
                 ", transcationalQuery=" + transcationalQuery +
                 ", sortingParameter=" + sortingParameter +
                 '}';
     }
+
+    public List<String> getTableUsed() {
+        return tableUsed;
+    }
+
+    public void setTableUsed(List<String> tableUsed) {
+        this.tableUsed = tableUsed;
+    }
+
 
 
     @Override

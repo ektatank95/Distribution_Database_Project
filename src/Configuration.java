@@ -7,5 +7,6 @@ public class Configuration {
     public final static String PASSWORD = "root";
     public static final String CREATE_TABLE_QUERY_TXT_FILE ="create_table_query.txt" ;
     public static final String SELECT_QUERY_TXT_FILE ="select_query.txt" ;
+    public static final String DATABASE_INFO = "database_info.txt";
     public static String Transational_Query_File="";
 }

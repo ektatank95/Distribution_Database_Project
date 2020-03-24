@@ -72,11 +72,12 @@ public class SelectQueryAnalysis {
             // findUpdateQueryReleted(tableRequiredByQuery);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost = totalFrequencyCost + weightOfQuery;
-            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, false, 0.0));
+            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery,weightOfQuery, false, 0.0));
         }
         for (int i = 0; i < queryInfo.size(); i++) {
             Query query = queryInfo.get(i);
             query.setWeight(query.getWeight() / totalFrequencyCost);
+            query.setRestWeight(query.getWeight());
             Double sortingParameter = updateSortingParameter(query).getSortingParameter();
             query.setSortingParameter(sortingParameter);
         }
@@ -84,7 +85,7 @@ public class SelectQueryAnalysis {
     }
 
     private static Query updateSortingParameter(Query query) {
-        Double updateWeights = 0.0;
+        Double updateRestWeight = 0.0;
         Double sortingParameter = 0.0;
         //paramter shows table used by query and it's update
         Set<String> tableUsed = new HashSet<String>();
@@ -92,12 +93,12 @@ public class SelectQueryAnalysis {
         List<Query> updateQueryList = query.getUpdates();
         if (updateQueryList != null) {
             for (int i = 0; i < updateQueryList.size(); i++) {
-                updateWeights = updateWeights + updateQueryList.get(i).getWeight();
+                updateRestWeight = updateRestWeight + updateQueryList.get(i).getRestWeight();
                 tableUsed.addAll(updateQueryList.get(i).getTableUsed());
             }
-            sortingParameter = query.getWeight() * updateWeights * tableUsed.size();
+            sortingParameter = query.getRestWeight() * updateRestWeight * tableUsed.size();
         }else{
-            sortingParameter = query.getWeight() * tableUsed.size();
+            sortingParameter = query.getRestWeight() * tableUsed.size();
         }
 
         query.setSortingParameter(sortingParameter);
