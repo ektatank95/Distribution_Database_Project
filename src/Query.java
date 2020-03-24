@@ -1,6 +1,7 @@
+import java.util.Comparator;
 import java.util.List;
 
-public class Query {
+public class Query implements Comparator<Query> {
     private String queryId;
     private String query;
     private Double queryCost;
@@ -9,9 +10,12 @@ public class Query {
     private List<Query> updates;
     private Double weight;
     private boolean transcationalQuery;
+    private Double sortingParameter;
 
+    public Query() {
+    }
 
-    public Query(String queryId, String query, Double queryCost, List<String> tableUsed, Integer frequency, List<Query> updates, Double weight, boolean transcationalQuery) {
+    public Query(String queryId, String query, Double queryCost, List<String> tableUsed, Integer frequency, List<Query> updates, Double weight, boolean transcationalQuery, Double sortingParameter) {
         this.queryId = queryId;
         this.query = query;
         this.queryCost = queryCost;
@@ -20,6 +24,15 @@ public class Query {
         this.updates = updates;
         this.weight = weight;
         this.transcationalQuery = transcationalQuery;
+        this.sortingParameter = sortingParameter;
+    }
+
+    public Double getSortingParameter() {
+        return sortingParameter;
+    }
+
+    public void setSortingParameter(Double sortingParameter) {
+        this.sortingParameter = sortingParameter;
     }
 
     public Integer getFrequency() {
@@ -97,6 +110,13 @@ public class Query {
                 ", updates=" + updates +
                 ", weight=" + weight +
                 ", transcationalQuery=" + transcationalQuery +
+                ", sortingParameter=" + sortingParameter +
                 '}';
+    }
+
+
+    @Override
+    public int compare(Query query, Query t1) {
+        return query.getSortingParameter().compareTo(t1.getSortingParameter());
     }
 }

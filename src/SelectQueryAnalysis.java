@@ -1,9 +1,6 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SelectQueryAnalysis {
@@ -47,7 +44,7 @@ public class SelectQueryAnalysis {
         List<Query> queryInfo = new ArrayList<>();
         int queryNo = 0;
         List<String> queryList = UtlityClass.getInputFromFile(fileName);
-        Double totalFrequencyCost=0.0;
+        Double totalFrequencyCost = 0.0;
         for (int i = 0; i < queryList.size(); i++) {
             String queryId = "Q" + (++queryNo);
             String[] split = queryList.get(i).split("#");
@@ -61,7 +58,7 @@ public class SelectQueryAnalysis {
             try {
                 query = split[0].toLowerCase();
                 frequency = Integer.valueOf(split[1]);
-            }catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println(queryId + "is not specified in format... format is query#frequencyof Query");
                 System.out.println("This query will be disgarded");
                 e.printStackTrace();
@@ -74,28 +71,51 @@ public class SelectQueryAnalysis {
             //TODO uncomment after transtional query file is given
             // findUpdateQueryReleted(tableRequiredByQuery);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
-            totalFrequencyCost=totalFrequencyCost+weightOfQuery;
-            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, false));
+            totalFrequencyCost = totalFrequencyCost + weightOfQuery;
+            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, false, 0.0));
         }
-        for(int i=0;i<queryInfo.size();i++){
-            Query query=queryInfo.get(i);
-            queryInfo.get(i).setWeight(query.getWeight()/totalFrequencyCost);
+        for (int i = 0; i < queryInfo.size(); i++) {
+            Query query = queryInfo.get(i);
+            query.setWeight(query.getWeight() / totalFrequencyCost);
+            Double sortingParameter = updateSortingParameter(query).getSortingParameter();
+            query.setSortingParameter(sortingParameter);
         }
         return queryInfo;
     }
 
-    private static Double findWeightOfQuery(  Integer frequency, Double queryCost) {
+    private static Query updateSortingParameter(Query query) {
+        Double updateWeights = 0.0;
+        Double sortingParameter = 0.0;
+        //paramter shows table used by query and it's update
+        Set<String> tableUsed = new HashSet<String>();
+        tableUsed.addAll(query.getTableUsed());
+        List<Query> updateQueryList = query.getUpdates();
+        if (updateQueryList != null) {
+            for (int i = 0; i < updateQueryList.size(); i++) {
+                updateWeights = updateWeights + updateQueryList.get(i).getWeight();
+                tableUsed.addAll(updateQueryList.get(i).getTableUsed());
+            }
+            sortingParameter = query.getWeight() * updateWeights * tableUsed.size();
+        }else{
+            sortingParameter = query.getWeight() * tableUsed.size();
+        }
+
+        query.setSortingParameter(sortingParameter);
+        return query;
+    }
+
+    private static Double findWeightOfQuery(Integer frequency, Double queryCost) {
         // if needed improvement let me know
-        return frequency*queryCost;
+        return frequency * queryCost;
     }
 
     private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery) {
-        List<Query> allUpdateQueryList=getAllqueryAttiributes(Configuration.Transational_Query_File);
-        List<Query> updatedQueryList=new ArrayList<>();
-        for(Query query:allUpdateQueryList){
+        List<Query> allUpdateQueryList = getAllqueryAttiributes(Configuration.Transational_Query_File);
+        List<Query> updatedQueryList = new ArrayList<>();
+        for (Query query : allUpdateQueryList) {
             query.setTranscationalQuery(true);
             Set<String> result = tableRequiredByQuery.stream().distinct().filter(query.getTableUsed()::contains).collect(Collectors.toSet());
-            if(result.size()!=0){
+            if (result.size() != 0) {
                 updatedQueryList.add(query);
             }
         }
@@ -117,5 +137,14 @@ public class SelectQueryAnalysis {
         for (int i = 0; i < queryList.size(); i++) {
             System.out.println(queryList.get(i).toString());
         }
+    }
+
+    public static List<Query> sortQueryByweightAndTablesize(List<Query> allqueryAttiributes) {
+        List<Query> sortedQueryList = new ArrayList<>();
+        for (int i = 0; i < allqueryAttiributes.size(); i++) {
+            sortedQueryList.add(updateSortingParameter(allqueryAttiributes.get(i)));
+        }
+        Collections.sort(sortedQueryList,new Query());
+        return sortedQueryList;
     }
 }
