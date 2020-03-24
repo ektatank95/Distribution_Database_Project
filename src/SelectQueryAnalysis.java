@@ -79,7 +79,7 @@ public class SelectQueryAnalysis {
         }
         for(int i=0;i<queryInfo.size();i++){
             Query query=queryInfo.get(i);
-            queryInfo.get(i).setQueryCost(query.getWeight()/totalFrequencyCost);
+            queryInfo.get(i).setWeight(query.getWeight()/totalFrequencyCost);
         }
         return queryInfo;
     }
