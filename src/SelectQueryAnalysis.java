@@ -1,7 +1,10 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SelectQueryAnalysis {
 
@@ -67,7 +70,9 @@ public class SelectQueryAnalysis {
             Double queryCost = findQueryCost(query);
             List<String> allTables = findAllTableOfDatabase();
             List<String> tableRequiredByQuery = findTableRequiredByquery(query, allTables);
-            List<Query> updateQueryList = findUpdateQueryReleted(tableRequiredByQuery);
+            List<Query> updateQueryList = null;
+            //TODO uncomment after transtional query file is given
+           // findUpdateQueryReleted(tableRequiredByQuery);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost=totalFrequencyCost+weightOfQuery;
             queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, false));
@@ -85,8 +90,17 @@ public class SelectQueryAnalysis {
     }
 
     private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery) {
-        //yet to implement
-        return null;
+       List<Query> allUpdateQueryList=getAllqueryAttiributes(Configuration.Transational_Query_File);
+       List<Query> updatedQueryList=new ArrayList<>();
+       for(Query query:allUpdateQueryList){
+           query.setTranscationalQuery(true);
+            Set<String> result = tableRequiredByQuery.stream().distinct().filter(query.getTableUsed()::contains).collect(Collectors.toSet());
+            if(result.size()!=0){
+                updatedQueryList.add(query);
+            }
+        }
+
+        return updatedQueryList;
     }
 
     private static List<String> findTableRequiredByquery(String query, List<String> allTables) {
