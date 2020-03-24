@@ -1,6 +1,0 @@
-public class temp {
-    public static void main(){
-        System.out.println("hello");
-    }
-
-}
