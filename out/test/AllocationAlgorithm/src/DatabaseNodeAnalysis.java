@@ -9,13 +9,9 @@ public class DatabaseNodeAnalysis {
         for (int i = 0; i < scaleLoadList.size(); i++) {
             String databaseId="D"+(++databaseNo);
             Double scaleLload= Double.valueOf(scaleLoadList.get(i));
-<<<<<<< HEAD
-            databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleLload,null,null,0));
-=======
             databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleLload,null,null,true));
->>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
         }
-            return databaseInfo;
+        return databaseInfo;
     }
 
     public static void viewDatabaseListInfo(List<DatabaseNode> databaseNodeList) {
@@ -24,4 +20,3 @@ public class DatabaseNodeAnalysis {
         }
     }
 }
-

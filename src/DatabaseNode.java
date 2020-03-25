@@ -1,4 +1,3 @@
-import java.util.Comparator;
 import java.util.List;
 
 public class DatabaseNode {
@@ -7,41 +6,16 @@ public class DatabaseNode {
     private double scaledLoad;
     private List<String> queryList;
     private List<String> fragmentList;
-
-    private double difference;
-
-
-    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList,double difference) {
-
     //if database currentload and scaleload become 100% we can't scale...make capacity paramter
     private boolean capacity;
 
     public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList, boolean capacity) {
-
         this.serverID = serverID;
         this.currentLoad = currentLoad;
         this.scaledLoad = scaledLoad;
         this.queryList = queryList;
         this.fragmentList = fragmentList;
-
-        this.difference = difference;
-    }
-
-    public DatabaseNode() {
-
-    }
-
-
-
-    public double getDifference() {
-        return difference;
-    }
-
-    public void setDifference(double difference) {
-        this.difference = difference;
-
         this.capacity = capacity;
-
     }
 
     public List<String> getFragmentList() {
@@ -104,8 +78,4 @@ public class DatabaseNode {
                 ", capacity=" + capacity +
                 '}';
     }
-
-
-
-
 }

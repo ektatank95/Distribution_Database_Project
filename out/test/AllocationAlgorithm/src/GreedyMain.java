@@ -38,7 +38,7 @@ public class GreedyMain {
         List<DatabaseNode> databaseNodeListWithFragment=GreedyAlgo.findAllocationOnDatabaseForQuery(allSortedqueryWithAttiributes,databaseNodeList);
         DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeListWithFragment);
 
-        fragmentAllocation.fragmentAllocation(allSortedqueryWithAttiributes,databaseNodeList);
+        //fragmentAllocation.fragmentAllocation(allSortedqueryWithAttiributes,databaseNodeList);
 
     }
 }
