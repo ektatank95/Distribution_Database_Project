@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class fragmentAllocation {
@@ -21,11 +22,28 @@ public class fragmentAllocation {
 
     public static void fragmentAllocation(List<Query> allqueryAttiributes,List<DatabaseNode> allNodeAttributes){
         double d=0;
-        for(int i=0;i<allqueryAttiributes.size();i++){
-//            System.out.println(allqueryAttiributes.get(i).getQueryId());
-//            System.out.println(allqueryAttiributes.get(i).getWeight());
-//            System.out.println(allqueryAttiributes.get(i).getSortingParameter());
-            d=d+allqueryAttiributes.get(i).getWeight();
+        List<Query> tempQueryList = allqueryAttiributes;
+
+        for(int i=0;i<tempQueryList.size();i++){
+            for(int j=0;j<allNodeAttributes.size();j++){
+                if(allNodeAttributes.get(j).getCurrentLoad()==allNodeAttributes.get(j).getScaledLoad()){
+                    allNodeAttributes.get(j).setDifference(1000.0);
+                }else if(allNodeAttributes.get(j).getCurrentLoad()==0){
+                    allNodeAttributes.get(j).setDifference(0);
+                }else{
+                    double diff = tempQueryList.get(i).getWeight();
+                    allNodeAttributes.get(j).setDifference(diff);
+                }
+            }
+
+
+
+            for(int k=0;k<allNodeAttributes.size();k++){
+                System.out.println(allNodeAttributes.get(k).getServerID());
+                System.out.println(allNodeAttributes.get(k).getDifference());
+            }
+
+            break;
         }
         System.out.println(d);
         for(int i=0;i<allNodeAttributes.size();i++){

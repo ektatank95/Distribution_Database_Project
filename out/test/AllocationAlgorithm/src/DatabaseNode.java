@@ -1,19 +1,34 @@
+import java.util.Comparator;
 import java.util.List;
 
-public class DatabaseNode {
+public class DatabaseNode implements Comparator<DatabaseNode> {
     private String serverID;
     private double currentLoad;
     private double scaledLoad;
     private List<String> queryList;
     private List<String> fragmentList;
+    private double difference;
 
 
-    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList) {
+    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList,double difference) {
         this.serverID = serverID;
         this.currentLoad = currentLoad;
         this.scaledLoad = scaledLoad;
         this.queryList = queryList;
         this.fragmentList = fragmentList;
+        this.difference = difference;
+    }
+
+    public DatabaseNode() {
+
+    }
+
+    public double getDifference() {
+        return difference;
+    }
+
+    public void setDifference(double difference) {
+        this.difference = difference;
     }
 
     public List<String> getFragmentList() {
@@ -65,5 +80,10 @@ public class DatabaseNode {
                 ", queryList=" + queryList +
                 ", fragmentList=" + fragmentList +
                 '}';
+    }
+
+    @Override
+    public int compare(DatabaseNode node, DatabaseNode t1) {
+        return node.getDifference().compareTo(t1.getDifference());
     }
 }

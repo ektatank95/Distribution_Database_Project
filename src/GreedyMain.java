@@ -21,6 +21,8 @@ public class GreedyMain {
         SelectQueryAnalysis.viewQueryListInfo(allSortedqueryWithAttiributes);
 
 
+
+
 //        List<Query> allQueryAttributes = SelectQueryAnalysis.sortQueryByweightAndTablesize(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE));
 //        List<DatabaseNode> allNodeAttributes = fragmentAllocation.setNodeAttributes(Configuration.NODE_CAPACITY_TXT_FILE);
 //        fragmentAllocation.fragmentAllocation(allQueryAttributes, allNodeAttributes);
@@ -35,6 +37,8 @@ public class GreedyMain {
          //call  on actual algo
         List<DatabaseNode> databaseNodeListWithFragment=GreedyAlgo.findAllocationOnDatabaseForQuery(allSortedqueryWithAttiributes,databaseNodeList);
         DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeListWithFragment);
+
+        fragmentAllocation.fragmentAllocation(allSortedqueryWithAttiributes,databaseNodeList);
 
     }
 }
