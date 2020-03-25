@@ -9,6 +9,16 @@ public class GreedyAlgo {
         databaseNodeList= checkAllBackEndAreFull(databaseNodeList,query);
         //algo line 10 to 17
         DatabaseNode databaseNode= calcutateDifference(databaseNodeList,query);
+        double currentLoad=databaseNode.getCurrentLoad();
+        double scaleLoad=databaseNode.getScaledLoad();
+        double restWeight=query.getRestWeight();
+        if(query.getRestWeight()>(databaseNode.getScaledLoad()-databaseNode.getCurrentLoad())){
+         query.setRestWeight(query.getRestWeight()-(databaseNode.getScaledLoad()-databaseNode.getCurrentLoad()));
+         databaseNode.setCurrentLoad(databaseNode.getScaledLoad());
+        }else{
+            databaseNode.setCurrentLoad(databaseNode.getScaledLoad()+query.getRestWeight());
+
+        }
 
         }
         return databaseNodeListWithAllocation;
@@ -46,6 +56,11 @@ public class GreedyAlgo {
         Double currentLoad=databaseNode.getCurrentLoad()+totalUpdateWeights;
         //check assumption point no 4
         databaseNode.setCurrentLoad(currentLoad);
+
+        //database node is full if equals and if greater it is overloaded so scale database node
+        if(databaseNode.getCurrentLoad()>=databaseNode.getScaledLoad()){
+            calcuateNewScaleload(query, databaseNode);
+        }
         return databaseNode;
     }
 
@@ -58,10 +73,14 @@ public class GreedyAlgo {
         }
         if(allFull==true) {
             for (DatabaseNode databaseNode : databaseNodeList) {
-                double newScaleLoad=databaseNode.getCurrentLoad()+(databaseNode.getScaledLoad()*query.getWeight());
-                databaseNode.setScaledLoad(newScaleLoad);
+                calcuateNewScaleload(query, databaseNode);
             }
         }
         return databaseNodeList;
+    }
+
+    private static void calcuateNewScaleload(Query query, DatabaseNode databaseNode) {
+        double newScaleLoad=databaseNode.getCurrentLoad()+(databaseNode.getScaledLoad()*query.getWeight());
+        databaseNode.setScaledLoad(newScaleLoad);
     }
 }
