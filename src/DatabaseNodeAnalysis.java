@@ -9,7 +9,7 @@ public class DatabaseNodeAnalysis {
         for (int i = 0; i < scaleLoadList.size(); i++) {
             String databaseId="D"+(++databaseNo);
             Double scaleLload= Double.valueOf(scaleLoadList.get(i));
-            databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleLload,null,null));
+            databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleLload,null,null,true));
         }
             return databaseInfo;
     }
