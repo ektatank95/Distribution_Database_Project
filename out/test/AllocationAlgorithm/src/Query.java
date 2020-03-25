@@ -130,5 +130,6 @@ public class Query implements Comparator<Query> {
     @Override
     public int compare(Query query, Query t1) {
         return query.getSortingParameter().compareTo(t1.getSortingParameter());
+
     }
 }

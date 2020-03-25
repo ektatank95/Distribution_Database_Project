@@ -7,23 +7,23 @@ public class DatabaseNode {
     private double scaledLoad;
     private List<String> queryList;
     private List<String> fragmentList;
-<<<<<<< HEAD
+
     private double difference;
 
 
     public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList,double difference) {
-=======
+
     //if database currentload and scaleload become 100% we can't scale...make capacity paramter
     private boolean capacity;
 
     public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList, boolean capacity) {
->>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
+
         this.serverID = serverID;
         this.currentLoad = currentLoad;
         this.scaledLoad = scaledLoad;
         this.queryList = queryList;
         this.fragmentList = fragmentList;
-<<<<<<< HEAD
+
         this.difference = difference;
     }
 
@@ -39,9 +39,9 @@ public class DatabaseNode {
 
     public void setDifference(double difference) {
         this.difference = difference;
-=======
+
         this.capacity = capacity;
->>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
+
     }
 
     public List<String> getFragmentList() {

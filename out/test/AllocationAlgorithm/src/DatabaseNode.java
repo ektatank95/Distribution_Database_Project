@@ -1,21 +1,29 @@
 import java.util.Comparator;
 import java.util.List;
 
-public class DatabaseNode implements Comparator<DatabaseNode> {
+public class DatabaseNode {
     private String serverID;
     private double currentLoad;
     private double scaledLoad;
     private List<String> queryList;
     private List<String> fragmentList;
+<<<<<<< HEAD
     private double difference;
 
 
     public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList,double difference) {
+=======
+    //if database currentload and scaleload become 100% we can't scale...make capacity paramter
+    private boolean capacity;
+
+    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList, boolean capacity) {
+>>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
         this.serverID = serverID;
         this.currentLoad = currentLoad;
         this.scaledLoad = scaledLoad;
         this.queryList = queryList;
         this.fragmentList = fragmentList;
+<<<<<<< HEAD
         this.difference = difference;
     }
 
@@ -23,12 +31,17 @@ public class DatabaseNode implements Comparator<DatabaseNode> {
 
     }
 
+
+
     public double getDifference() {
         return difference;
     }
 
     public void setDifference(double difference) {
         this.difference = difference;
+=======
+        this.capacity = capacity;
+>>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
     }
 
     public List<String> getFragmentList() {
@@ -71,6 +84,15 @@ public class DatabaseNode implements Comparator<DatabaseNode> {
         this.queryList = queryList;
     }
 
+
+    public boolean isCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(boolean capacity) {
+        this.capacity = capacity;
+    }
+
     @Override
     public String toString() {
         return "DatabaseNode{" +
@@ -79,11 +101,11 @@ public class DatabaseNode implements Comparator<DatabaseNode> {
                 ", scaledLoad=" + scaledLoad +
                 ", queryList=" + queryList +
                 ", fragmentList=" + fragmentList +
+                ", capacity=" + capacity +
                 '}';
     }
 
-    @Override
-    public int compare(DatabaseNode node, DatabaseNode t1) {
-        return node.getDifference().compareTo(t1.getDifference());
-    }
+
+
+
 }

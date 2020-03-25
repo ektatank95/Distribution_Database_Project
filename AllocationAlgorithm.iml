@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$" type="java-test-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="11.0.4" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library>
@@ -17,9 +17,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-<<<<<<< HEAD
     <orderEntry type="library" name="postgresql-42.2.11" level="project" />
-=======
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -29,6 +27,5 @@
         <SOURCES />
       </library>
     </orderEntry>
->>>>>>> 2d7ee3c1333574a76391cd4992c5cf3e2f1dd85d
   </component>
 </module>

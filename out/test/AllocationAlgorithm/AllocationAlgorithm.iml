@@ -18,5 +18,14 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="postgresql-42.2.11" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://E:/DAIICT/semester2/Distributed Database/project/JAR/google-collections-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

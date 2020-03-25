@@ -36,7 +36,8 @@ public class fragmentAllocation {
                 }
             }
 
-            Collections.sort(allNodeAttributes,new DatabaseNode());
+
+
             for(int k=0;k<allNodeAttributes.size();k++){
                 System.out.println(allNodeAttributes.get(k).getServerID());
                 System.out.println(allNodeAttributes.get(k).getDifference());
