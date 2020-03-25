@@ -105,7 +105,6 @@ public class Query implements Comparator<Query> {
     public String toString() {
         return "Query{" +
                 "queryId='" + queryId + '\'' +
-                ", query='" + query + '\'' +
                 ", queryCost=" + queryCost +
                 ", tableUsed=" + tableUsed +
                 ", frequency=" + frequency +
@@ -114,6 +113,7 @@ public class Query implements Comparator<Query> {
                 ", restWeight=" + restWeight +
                 ", transcationalQuery=" + transcationalQuery +
                 ", sortingParameter=" + sortingParameter +
+                ", query='" + query + '\'' +
                 '}';
     }
 
