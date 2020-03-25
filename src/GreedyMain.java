@@ -20,5 +20,9 @@ public class GreedyMain {
         SelectQueryAnalysis.viewQueryListInfo(SelectQueryAnalysis.sortQueryByweightAndTablesize(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE)));
 
 
+        List<Query> allQueryAttributes = SelectQueryAnalysis.sortQueryByweightAndTablesize(SelectQueryAnalysis.getAllqueryAttiributes(Configuration.SELECT_QUERY_TXT_FILE));
+        List<DatabaseNode> allNodeAttributes = fragmentAllocation.setNodeAttributes(Configuration.NODE_CAPACITY_TXT_FILE);
+        fragmentAllocation.fragmentAllocation(allQueryAttributes, allNodeAttributes);
+
     }
 }
