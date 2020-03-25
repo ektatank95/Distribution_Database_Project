@@ -8,20 +8,21 @@ public class GreedyAlgo {
         List<DatabaseNode> databaseNodeListWithAllocation = new ArrayList<>();
         //algo line 6 to 9
         while (!allSortedqueryWithAttiributes.isEmpty()) {
-            for (Query query : allSortedqueryWithAttiributes) {
-                databaseNodeList = checkAllBackEndAreFull(databaseNodeList, query);
-                //algo line 10 to 17
-                DatabaseNode databaseNode = calcutateDifference(databaseNodeList, query);
-                if (query.getRestWeight() > (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad())) {
-                    query.setRestWeight(query.getRestWeight() - (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad()));
-                    databaseNode.setCurrentLoad(databaseNode.getScaledLoad());
-                } else {
-                    databaseNode.setCurrentLoad(databaseNode.getScaledLoad() + query.getRestWeight());
-                    allSortedqueryWithAttiributes.remove(query);
+            //  for (Query query : allSortedqueryWithAttiributes) {
+            Query query = allSortedqueryWithAttiributes.get(0);
+            databaseNodeList = checkAllBackEndAreFull(databaseNodeList, query);
+            //algo line 10 to 17
+            DatabaseNode databaseNode = calcutateDifference(databaseNodeList, query);
+            if (query.getRestWeight() > (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad())) {
+                query.setRestWeight(query.getRestWeight() - (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad()));
+                databaseNode.setCurrentLoad(databaseNode.getScaledLoad());
+            } else {
+                databaseNode.setCurrentLoad(databaseNode.getScaledLoad() + query.getRestWeight());
+                allSortedqueryWithAttiributes.remove(query);
 
-                }
-                SelectQueryAnalysis.sortQueryByweightAndTablesize(allSortedqueryWithAttiributes);
             }
+            SelectQueryAnalysis.sortQueryByweightAndTablesize(allSortedqueryWithAttiributes);
+            // }
         }
         return databaseNodeListWithAllocation;
     }

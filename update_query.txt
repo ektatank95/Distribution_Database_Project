@@ -1,0 +1,5 @@
+update LINEITEM set x7=123 where l_shipdate >= date '1994-01-01' and l_shipdate < date '1994-01-01' + interval '1' year and l_discount between 0.06 - 0.01 and 0.06 + 0.01 and l_quantity < 24;#1
+update ORDERS set x6=123 where o_orderdate >= date '1995-01-01' and o_orderdate < date '1995-01-01' + interval '3' month and exists (select * from LINEITEM where l_orderkey = o_orderkey and l_commitdate < l_receiptdate);#1
+update customer set xx=12 where c_custkey>15000;#1
+update supplier set x4=125 where s_suppkey<555;#1
+update partsupp set x5=234 where ps_partkey>303202;#1
