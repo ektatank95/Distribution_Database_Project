@@ -9,15 +9,15 @@ public class GreedyAlgo {
         //algo line 6 to 9
         while (!allSortedqueryWithAttiributes.isEmpty()) {
             //  for (Query query : allSortedqueryWithAttiributes) {
-            Query query = allSortedqueryWithAttiributes.get(0);
+            Query query = allSortedqueryWithAttiributes.get(allSortedqueryWithAttiributes.size()-1);
             databaseNodeList = checkAllBackEndAreFull(databaseNodeList, query);
-            //algo line 10 to 17
+            //algo line 10 to 19
             DatabaseNode databaseNode = calcutateDifference(databaseNodeList, query);
             if (query.getRestWeight() > (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad())) {
                 query.setRestWeight(query.getRestWeight() - (databaseNode.getScaledLoad() - databaseNode.getCurrentLoad()));
                 databaseNode.setCurrentLoad(databaseNode.getScaledLoad());
             } else {
-                databaseNode.setCurrentLoad(databaseNode.getScaledLoad() + query.getRestWeight());
+                databaseNode.setCurrentLoad(databaseNode.getCurrentLoad() + query.getRestWeight());
                 allSortedqueryWithAttiributes.remove(query);
 
             }
@@ -28,6 +28,7 @@ public class GreedyAlgo {
     }
 
     private static DatabaseNode calcutateDifference(List<DatabaseNode> databaseNodeList, Query query) {
+        //Integer shows difference of database
         SortedMap<Integer, DatabaseNode> difference = new TreeMap<Integer, DatabaseNode>();
         Set<String> tableUsedByqueryAndItsUpdate = new HashSet<>();
         tableUsedByqueryAndItsUpdate.addAll(query.getTableUsed());

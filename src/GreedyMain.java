@@ -8,7 +8,7 @@ public class GreedyMain {
         Statement stmt = UtlityClass.getConnection();
 
         //TODO uncomment below line if table name is required
-      //  CreateTableRequired.createTable(Configuration.CREATE_TABLE_QUERY_TXT_FILE, stmt);
+         CreateTableRequired.createTable(Configuration.CREATE_TABLE_QUERY_TXT_FILE, stmt);
 
         //to check select query data;
         System.out.println("Before Sorting List of Query Information............");
