@@ -5,7 +5,7 @@ public class DatabaseNodeAnalysis {
     public static List<DatabaseNode> getAllDatabaseNodeInfo(String fileName){
         List<DatabaseNode> databaseInfo = new ArrayList<>();
         int databaseNo = 0;
-        List<String> scaleLoadList = UtlityClass.getInputFromFile(fileName);
+        List<String> scaleLoadList = UtlityClass.getInputFromFile(fileName,Configuration.CREATE_MODE);
         for (int i = 0; i < scaleLoadList.size(); i++) {
             String databaseId="D"+(++databaseNo);
             Double scaleload= (Double.valueOf(scaleLoadList.get(i)))/100;

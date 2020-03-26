@@ -1,15 +1,15 @@
-import java.util.List;
+import java.util.Set;
 
 public class DatabaseNode {
     private String serverID;
     private double currentLoad;
     private double scaledLoad;
-    private List<String> queryList;
-    private List<String> fragmentList;
+    private Set<Query> queryList;
+    private Set<String> fragmentList;
     //if database currentload and scaleload become 100% we can't scale...make capacity paramter
     private boolean capacity;
 
-    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, List<String> queryList, List<String> fragmentList, boolean capacity) {
+    public DatabaseNode(String serverID, double currentLoad, double scaledLoad, Set<Query> queryList, Set<String> fragmentList, boolean capacity) {
         this.serverID = serverID;
         this.currentLoad = currentLoad;
         this.scaledLoad = scaledLoad;
@@ -18,11 +18,12 @@ public class DatabaseNode {
         this.capacity = capacity;
     }
 
-    public List<String> getFragmentList() {
+
+    public Set<String> getFragmentList() {
         return fragmentList;
     }
 
-    public void setFragmentList(List<String> fragmentList) {
+    public void setFragmentList(Set<String> fragmentList) {
         this.fragmentList = fragmentList;
     }
 
@@ -42,7 +43,7 @@ public class DatabaseNode {
         return scaledLoad;
     }
 
-    public List<String> getQueryList() {
+    public Set<Query> getQueryList() {
         return queryList;
     }
 
@@ -54,7 +55,7 @@ public class DatabaseNode {
         this.scaledLoad = scaledLoad;
     }
 
-    public void setQueryList(List<String> queryList) {
+    public void setQueryList(Set<Query> queryList) {
         this.queryList = queryList;
     }
 

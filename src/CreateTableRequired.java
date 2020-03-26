@@ -6,7 +6,7 @@ import java.util.List;
 public class CreateTableRequired {
     public static void createTable(String createTableQueryFile,Statement stmt) {
         try {
-            List<String> inputFromFile = UtlityClass.getInputFromFile(createTableQueryFile);
+            List<String> inputFromFile = UtlityClass.getInputFromFile(createTableQueryFile,Configuration.CREATE_MODE);
             for (int i = 0; i < inputFromFile.size(); i++) {
                 stmt.executeUpdate(inputFromFile.get(i));
             }

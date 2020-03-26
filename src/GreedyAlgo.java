@@ -58,7 +58,7 @@ public class GreedyAlgo {
         }
         DatabaseNode databaseNode = (DatabaseNode) difference.values().toArray()[0];
         // algo line 18
-        List<String> updatedFragmentList = new ArrayList<>();
+        Set<String> updatedFragmentList = new HashSet<>();
         updatedFragmentList.addAll(tableUsedByqueryAndItsUpdate);
         if(databaseNode.getFragmentList()!=null){
             updatedFragmentList.addAll(databaseNode.getFragmentList());}
@@ -72,6 +72,12 @@ public class GreedyAlgo {
         if (databaseNode.getCurrentLoad() >= databaseNode.getScaledLoad()) {
             calcuateNewScaleload(query, databaseNode);
         }
+        Set<Query> queryList = new HashSet<>();
+        if(databaseNode.getQueryList()!=null){
+            queryList.addAll(databaseNode.getQueryList());
+        }
+        queryList.add(query);
+        databaseNode.setQueryList(queryList);
         return databaseNode;
     }
 
@@ -91,7 +97,12 @@ public class GreedyAlgo {
     }
 
     private static void calcuateNewScaleload(Query query, DatabaseNode databaseNode) {
+        if(databaseNode.getScaledLoad()==1){
+            System.out.println("databaseNode with ID "+databaseNode.getServerID()+"is full , \n" +
+                    "no more scaling can be done..Now on more query can be schedule");
+        }else{
         double newScaleLoad = databaseNode.getCurrentLoad() + (databaseNode.getScaledLoad() * query.getWeight());
         databaseNode.setScaledLoad(newScaleLoad);
+        }
     }
 }
