@@ -12,6 +12,12 @@ public class CreateTableRequired {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                stmt.getConnection().close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

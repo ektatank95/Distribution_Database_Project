@@ -1,5 +1,6 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,13 +9,22 @@ public class SelectQueryAnalysis {
     public static List<String> findAllTableOfDatabase() {
         List<String> tableList = new ArrayList<>();
         ResultSet rs;
+        Statement stmt=null;
         try {
-            rs = UtlityClass.getConnection().executeQuery(QueryConstant.TABLE_REQUIRED);
+            stmt = UtlityClass.getConnection();
+            rs = stmt.executeQuery(QueryConstant.TABLE_REQUIRED);
             while (rs.next()) {
                 tableList.add(rs.getString("table_name").toLowerCase());
             }
+           stmt.getConnection().close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                stmt.getConnection().close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return tableList;
     }
@@ -22,9 +32,11 @@ public class SelectQueryAnalysis {
     //bhautik's code
     public static Double findQueryCost(String query) {
         ResultSet rs;
+        Statement stmt=null;
         double queryCost = 0;
         try {
-            rs = UtlityClass.getConnection().executeQuery(QueryConstant.EXPLAIN + " " + query);
+            stmt = UtlityClass.getConnection();
+            rs=stmt.executeQuery(QueryConstant.EXPLAIN + " " + query);
             while (rs.next()) {
                 String name = rs.getString("QUERY PLAN");
                 //  System.out.println(name);
@@ -32,6 +44,7 @@ public class SelectQueryAnalysis {
                 String[] cost1 = splitCost[1].split(" ");
                 String finalCost = cost1[0];
                 queryCost = Double.parseDouble(finalCost);
+                stmt.getConnection().close();
                 break;
             }
         } catch (SQLException e) {
@@ -47,6 +60,7 @@ public class SelectQueryAnalysis {
         Double totalFrequencyCost = 0.0;
         List<String> allTables = findAllTableOfDatabase();
         for (int i = 0; i < queryList.size(); i++) {
+            System.out.println("inside");
             String queryId = "Q" + (++queryNo);
             String[] split = queryList.get(i).split("#");
             String query = null;
@@ -71,7 +85,7 @@ public class SelectQueryAnalysis {
             List<String> tableRequiredByQuery = findTableRequiredByquery(query, allTables);
             List<Query> updateQueryList = null;
             //TODO uncomment after transtional query file is given
-            // findUpdateQueryReleted(tableRequiredByQuery);
+           // findUpdateQueryReleted(tableRequiredByQuery);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost = totalFrequencyCost + weightOfQuery;
             queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery,weightOfQuery, false, 0.0));
@@ -113,6 +127,7 @@ public class SelectQueryAnalysis {
     }
 
     private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery) {
+
         List<Query> allUpdateQueryList = getAllqueryAttiributes(Configuration.Transational_Query_File);
         List<Query> updatedQueryList = new ArrayList<>();
         for (Query query : allUpdateQueryList) {
