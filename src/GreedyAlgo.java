@@ -54,7 +54,8 @@ public class GreedyAlgo {
         // algo line 18
         List<String> updatedFragmentList = new ArrayList<>();
         updatedFragmentList.addAll(tableUsedByqueryAndItsUpdate);
-        updatedFragmentList.addAll(databaseNode.getFragmentList());
+        if(databaseNode.getFragmentList()!=null){
+            updatedFragmentList.addAll(databaseNode.getFragmentList());}
         databaseNode.setFragmentList(updatedFragmentList);
         //algo line 19
         Double currentLoad = databaseNode.getCurrentLoad() + totalUpdateWeights;
