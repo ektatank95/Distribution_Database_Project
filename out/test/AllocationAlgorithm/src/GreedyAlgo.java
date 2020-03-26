@@ -10,6 +10,12 @@ public class GreedyAlgo {
         while (!allSortedqueryWithAttiributes.isEmpty()) {
             //  for (Query query : allSortedqueryWithAttiributes) {
             Query query = allSortedqueryWithAttiributes.get(allSortedqueryWithAttiributes.size()-1);
+//            List<Query> temp = new ArrayList<>();
+//            temp.add(query);
+            SelectQueryAnalysis.viewQueryListInfo(allSortedqueryWithAttiributes);
+            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+            DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeList);
+            System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
             databaseNodeList = checkAllBackEndAreFull(databaseNodeList, query);
             //algo line 10 to 19
             DatabaseNode databaseNode = calcutateDifference(databaseNodeList, query);
@@ -24,7 +30,7 @@ public class GreedyAlgo {
             SelectQueryAnalysis.sortQueryByweightAndTablesize(allSortedqueryWithAttiributes);
             // }
         }
-        return databaseNodeListWithAllocation;
+        return databaseNodeList;
     }
 
     private static DatabaseNode calcutateDifference(List<DatabaseNode> databaseNodeList, Query query) {
@@ -54,7 +60,8 @@ public class GreedyAlgo {
         // algo line 18
         List<String> updatedFragmentList = new ArrayList<>();
         updatedFragmentList.addAll(tableUsedByqueryAndItsUpdate);
-        updatedFragmentList.addAll(databaseNode.getFragmentList());
+        if(databaseNode.getFragmentList()!=null){
+            updatedFragmentList.addAll(databaseNode.getFragmentList());}
         databaseNode.setFragmentList(updatedFragmentList);
         //algo line 19
         Double currentLoad = databaseNode.getCurrentLoad() + totalUpdateWeights;

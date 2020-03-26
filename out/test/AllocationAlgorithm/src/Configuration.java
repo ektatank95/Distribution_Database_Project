@@ -9,8 +9,12 @@ public class Configuration {
     public static final String SELECT_QUERY_TXT_FILE ="select_query.txt" ;
     public static final String DATABASE_INFO = "database_info.txt";
 
+
     public static final String NODE_CAPACITY_TXT_FILE ="nodeCapacity.txt";
 
     public static String Transational_Query_File="update_query.txt";
+
+
+    public static final String TRANSACTION_QUERY_FILE ="update_query.txt";
 
 }

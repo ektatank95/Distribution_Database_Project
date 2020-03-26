@@ -8,8 +8,8 @@ public class DatabaseNodeAnalysis {
         List<String> scaleLoadList = UtlityClass.getInputFromFile(fileName);
         for (int i = 0; i < scaleLoadList.size(); i++) {
             String databaseId="D"+(++databaseNo);
-            Double scaleLload= (Double.valueOf(scaleLoadList.get(i)))/100;
-            databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleLload,null,null,true));
+            Double scaleload= (Double.valueOf(scaleLoadList.get(i)))/100;
+            databaseInfo.add(new DatabaseNode(databaseId,0.0,scaleload,null,null,true));
         }
         return databaseInfo;
     }
