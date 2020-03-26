@@ -9,7 +9,7 @@ public class SelectQueryAnalysis {
     public static List<String> findAllTableOfDatabase() {
         List<String> tableList = new ArrayList<>();
         ResultSet rs;
-        Statement stmt=null;
+        Statement stmt = null;
         try {
             stmt = UtlityClass.getConnection();
             rs = stmt.executeQuery(QueryConstant.TABLE_REQUIRED);
@@ -18,7 +18,7 @@ public class SelectQueryAnalysis {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 stmt.getConnection().close();
             } catch (SQLException e) {
@@ -31,11 +31,11 @@ public class SelectQueryAnalysis {
     //bhautik's code
     public static Double findQueryCost(String query) {
         ResultSet rs;
-        Statement stmt=null;
+        Statement stmt = null;
         double queryCost = 0;
         try {
             stmt = UtlityClass.getConnection();
-            rs=stmt.executeQuery(QueryConstant.EXPLAIN + " " + query);
+            rs = stmt.executeQuery(QueryConstant.EXPLAIN + " " + query);
             while (rs.next()) {
                 String name = rs.getString("QUERY PLAN");
                 //  System.out.println(name);
@@ -51,14 +51,19 @@ public class SelectQueryAnalysis {
         return queryCost;
     }
 
-    public static List<Query> getAllqueryAttiributes(String queryFile,boolean isTranstional) {
-        List<Query> allUpdateQuery=null;
-        if (isTranstional==false){
-         allUpdateQuery = findAllUpdateQuery();
+    public static List<Query> getAllqueryAttiributes(String queryFile, boolean isTranstional) {
+        List<Query> allUpdateQuery = null;
+        if (isTranstional == false) {
+            allUpdateQuery = findAllUpdateQuery();
         }
         List<Query> queryInfo = new ArrayList<>();
         int queryNo = 0;
-        List<String> queryList = UtlityClass.getInputFromFile(queryFile);
+        List<String> queryList = new ArrayList<>();
+        if (isTranstional == false) {
+            queryList = UtlityClass.getInputFromFile(queryFile, Configuration.TRANSACTIONAL_MODE);
+        } else {
+            queryList = UtlityClass.getInputFromFile(queryFile, Configuration.ANALYTICAL_MODE);
+        }
         Double totalFrequencyCost = 0.0;
         List<String> allTables = findAllTableOfDatabase();
         for (int i = 0; i < queryList.size(); i++) {
@@ -81,18 +86,18 @@ public class SelectQueryAnalysis {
                 continue;
             }
             Double queryCost = findQueryCost(query);
-        //    List<String> allTables = findAllTableOfDatabase();
+            //    List<String> allTables = findAllTableOfDatabase();
             //TODO will not work always--part and part supplier
             List<String> tableRequiredByQuery = findTableRequiredByquery(query, allTables);
             List<Query> updateQueryList = new ArrayList<>(0);
             //TODO uncomment after transtional query file is given
-            if(isTranstional==false){
+            if (isTranstional == false) {
 
                 updateQueryList = findUpdateQueryReleted(tableRequiredByQuery, allUpdateQuery);
             }
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost = totalFrequencyCost + weightOfQuery;
-            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery,weightOfQuery, false, 0.0));
+            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, weightOfQuery, false, 0.0));
         }
         for (int i = 0; i < queryInfo.size(); i++) {
             Query query = queryInfo.get(i);
@@ -105,11 +110,11 @@ public class SelectQueryAnalysis {
     }
 
     public static List<Query> findAllUpdateQuery() {
-        return getAllqueryAttiributes(Configuration.TRANSACTION_QUERY_FILE,true);
+        return getAllqueryAttiributes(Configuration.TRANSACTION_QUERY_FILE, true);
     }
 
     private static Query updateSortingParameter(Query query) {
-            Double updateRestWeight = 0.0;
+        Double updateRestWeight = 0.0;
         Double sortingParameter = 0.0;
         //paramter shows table used by query and it's update
         Set<String> tableUsed = new HashSet<String>();
@@ -120,8 +125,8 @@ public class SelectQueryAnalysis {
                 updateRestWeight = updateRestWeight + updateQueryList.get(i).getRestWeight();
                 tableUsed.addAll(updateQueryList.get(i).getTableUsed());
             }
-            sortingParameter = (query.getRestWeight() +updateRestWeight )* tableUsed.size();
-        }else{
+            sortingParameter = (query.getRestWeight() + updateRestWeight) * tableUsed.size();
+        } else {
             sortingParameter = query.getRestWeight() * tableUsed.size();
         }
 
@@ -134,9 +139,9 @@ public class SelectQueryAnalysis {
         return frequency * queryCost;
     }
 
-    private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery,List<Query>  allUpdateQueryList) {
+    private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery, List<Query> allUpdateQueryList) {
 
-       // List<Query> allUpdateQueryList = getAllqueryAttiributes(Configuration.TRANSACTION_QUERY_FILE);
+        // List<Query> allUpdateQueryList = getAllqueryAttiributes(Configuration.TRANSACTION_QUERY_FILE);
         List<Query> updatedQueryList = new ArrayList<>();
         for (Query query : allUpdateQueryList) {
             query.setTranscationalQuery(true);
@@ -170,7 +175,7 @@ public class SelectQueryAnalysis {
         for (int i = 0; i < allqueryWithAttiributes.size(); i++) {
             sortedQueryList.add(updateSortingParameter(allqueryWithAttiributes.get(i)));
         }
-        Collections.sort(sortedQueryList,new Query());
+        Collections.sort(sortedQueryList, new Query());
         return sortedQueryList;
     }
 }
