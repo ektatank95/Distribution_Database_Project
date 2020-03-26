@@ -44,12 +44,14 @@ public class UtlityClass {
             }
         } catch (FileNotFoundException e) {
             if (mode.equals(Configuration.ANALYTICAL_MODE)){
-                System.out.println("Analytical Query File not found.. analytical queries is not available...Algorithm cannot be run");
+                System.out.println("Analytical Query File not found.. analytical queries is not available...Algorithm cannot be run\n please provide Analytical Query File and rerun your program.");
+                System.exit(0);
             }else if( mode.equals(Configuration.CREATE_MODE)){
                 System.out.println("Table Creation File available...Can't proceed further without table creation");
+            }else{
                 System.out.println("No Transactional query File is available...will not consider transaction query in allocation calcuation");
             }
-            e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

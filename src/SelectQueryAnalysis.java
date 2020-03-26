@@ -60,9 +60,9 @@ public class SelectQueryAnalysis {
         int queryNo = 0;
         List<String> queryList = new ArrayList<>();
         if (isTranstional == false) {
-            queryList = UtlityClass.getInputFromFile(queryFile, Configuration.TRANSACTIONAL_MODE);
-        } else {
             queryList = UtlityClass.getInputFromFile(queryFile, Configuration.ANALYTICAL_MODE);
+        } else {
+            queryList = UtlityClass.getInputFromFile(queryFile, Configuration.TRANSACTIONAL_MODE);
         }
         Double totalFrequencyCost = 0.0;
         List<String> allTables = findAllTableOfDatabase();
