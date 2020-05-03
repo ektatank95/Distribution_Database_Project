@@ -103,18 +103,20 @@ public class Query implements Comparator<Query> {
 
     @Override
     public String toString() {
-        return "Query{" +
-                "queryId='" + queryId + '\'' +
-                ", queryCost=" + queryCost +
-                ", tableUsed=" + tableUsed +
-                ", frequency=" + frequency +
-                ", updates=" + updates +
-                ", weight=" + weight +
-                ", restWeight=" + restWeight +
-                ", transcationalQuery=" + transcationalQuery +
-                ", sortingParameter=" + sortingParameter +
-                ", query='" + query + '\'' +
-                '}';
+//        return "Query{" +
+//                "queryId='" + queryId + '\'' +
+//                ", queryCost=" + queryCost +
+//                ", tableUsed=" + tableUsed +
+//                ", frequency=" + frequency +
+//                ", updates=" + updates +
+//                ", weight=" + weight +
+//                ", restWeight=" + restWeight +
+//                ", transcationalQuery=" + transcationalQuery +
+//                ", sortingParameter=" + sortingParameter +
+//                ", query='" + query + '\'' +
+//                '}';
+
+        return queryId;
     }
 
     public List<String> getTableUsed() {
