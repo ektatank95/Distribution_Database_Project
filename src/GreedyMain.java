@@ -33,6 +33,19 @@ public class GreedyMain {
         System.out.println(databaseNodeListWithFragment.size());
         DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeListWithFragment);
 
+        System.out.println(" \nFinal Output of Algoithm");
+        System.out.println( "Database Node\tQuery Assigned on Database Node\t" );
+
+        System.out.println("-----------------------------------------------------------------------------");
+        System.out.printf("%10s %30s %20s", "DATABASE NODE ", " QUERY ASSIGNED", "FRAGMENT ASSIGNED");
+        System.out.println();
+        System.out.println("-----------------------------------------------------------------------------");
+        for(DatabaseNode databaseNode: databaseNodeListWithFragment){
+            System.out.format("%10s %30s %50s",
+                    databaseNode.getServerID(), databaseNode.getQueryList(), databaseNode.getFragmentList());
+            System.out.println();
+        }
+        System.out.println("-----------------------------------------------------------------------------");
         //fragmentAllocation.fragmentAllocation(allSortedqueryWithAttiributes,databaseNodeList);
 
     }

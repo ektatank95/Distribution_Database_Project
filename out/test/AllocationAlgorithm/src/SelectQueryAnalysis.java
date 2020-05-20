@@ -58,14 +58,26 @@ public class SelectQueryAnalysis {
         if (isTranstional==false){
          allUpdateQuery = findAllUpdateQuery();
         }
+//        for(int j=0;j<allUpdateQuery.size();j++){
+//            System.out.println(allUpdateQuery.get(j).getQueryId());
+//        }
         List<Query> queryInfo = new ArrayList<>();
         int queryNo = 0;
-        List<String> queryList = UtlityClass.getInputFromFile(queryFile);
+        List<String> queryList = UtlityClass.getInputFromFile(queryFile,"u");
         Double totalFrequencyCost = 0.0;
         List<String> allTables = findAllTableOfDatabase();
+//        for(int j=0;j<allTables.size();j++){
+//            System.out.println(allTables.get(j));
+//        }
         for (int i = 0; i < queryList.size(); i++) {
             //System.out.println("inside");
-            String queryId = "Q" + (++queryNo);
+            String queryId = "";
+            if(isTranstional){
+                queryId = "U" + (++queryNo);
+            }else{
+                queryId = "Q" + (++queryNo);
+            }
+
             String[] split = queryList.get(i).split("#");
             String query = null;
             Integer frequency = 1;
@@ -93,13 +105,19 @@ public class SelectQueryAnalysis {
            // findUpdateQueryReleted(tableRequiredByQuery);
 
             if(isTranstional==false){
-
+                System.out.println("id----------"+queryId);
                 updateQueryList = findUpdateQueryReleted(tableRequiredByQuery, allUpdateQuery);
+                for(int j=0;j<updateQueryList.size();j++){
+            System.out.println(updateQueryList.get(j).getQuery());
+        }
             }
-
+            Set<Query> newSet = new HashSet<>();
+            Set<String> newTableSet = new HashSet<>();
+            newTableSet.addAll(tableRequiredByQuery);
+            newSet.addAll(updateQueryList);
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost = totalFrequencyCost + weightOfQuery;
-            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery,weightOfQuery, false, 0.0));
+            queryInfo.add(new Query(queryId, query, queryCost, newTableSet, frequency, newSet, weightOfQuery,weightOfQuery, false, 0.0));
         }
         for (int i = 0; i < queryInfo.size(); i++) {
             Query query = queryInfo.get(i);
@@ -121,7 +139,9 @@ public class SelectQueryAnalysis {
         //paramter shows table used by query and it's update
         Set<String> tableUsed = new HashSet<String>();
         tableUsed.addAll(query.getTableUsed());
-        List<Query> updateQueryList = query.getUpdates();
+        List<Query> updateQueryList=new ArrayList<>();
+        updateQueryList.addAll(query.getUpdates());
+
         if (updateQueryList != null) {
             for (int i = 0; i < updateQueryList.size(); i++) {
                 updateRestWeight = updateRestWeight + updateQueryList.get(i).getRestWeight();

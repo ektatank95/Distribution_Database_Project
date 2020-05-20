@@ -34,7 +34,7 @@ public class UtlityClass {
         return stmt;
     }
 
-    public static List<String> getInputFromFile(String fileName) {
+    public static List<String> getInputFromFile(String fileName,String mode) {
         List<String> inputStringList = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -43,6 +43,12 @@ public class UtlityClass {
                 inputStringList.add(query);
             }
         } catch (FileNotFoundException e) {
+            if (mode.equals(Configuration.ANALYTICAL_MODE)){
+                System.out.println("Analytical Query File not found.. analytical queries is not available...Algorithm cannot be run");
+            }else if( mode.equals(Configuration.CREATE_MODE)){
+                System.out.println("Table Creation File available...Can't proceed further without table creation");
+                System.out.println("No Transactional query File is available...will not consider transaction query in allocation calcuation");
+            }
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();

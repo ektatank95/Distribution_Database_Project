@@ -1,13 +1,14 @@
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class Query implements Comparator<Query> {
     private String queryId;
     private String query;
     private Double queryCost;
-    private List<String> tableUsed;
+    private Set<String> tableUsed;
     private Integer frequency;
-    private List<Query> updates;
+    private Set<Query> updates;
     private Double weight;
     private Double restWeight;
     private boolean transcationalQuery;
@@ -16,7 +17,7 @@ public class Query implements Comparator<Query> {
     public Query() {
     }
 
-    public Query(String queryId, String query, Double queryCost, List<String> tableUsed, Integer frequency, List<Query> updates, Double weight, Double restWeight, boolean transcationalQuery, Double sortingParameter) {
+    public Query(String queryId, String query, Double queryCost, Set<String> tableUsed, Integer frequency, Set<Query> updates, Double weight, Double restWeight, boolean transcationalQuery, Double sortingParameter) {
         this.queryId = queryId;
         this.query = query;
         this.queryCost = queryCost;
@@ -53,11 +54,11 @@ public class Query implements Comparator<Query> {
         this.frequency = frequency;
     }
 
-    public List<Query> getUpdates() {
+    public Set<Query> getUpdates() {
         return updates;
     }
 
-    public void setUpdates(List<Query> updates) {
+    public void setUpdates(Set<Query> updates) {
         this.updates = updates;
     }
 
@@ -103,26 +104,28 @@ public class Query implements Comparator<Query> {
 
     @Override
     public String toString() {
-        return "Query{" +
-                "queryId='" + queryId + '\'' +
-                ", queryCost=" + queryCost +
-                ", sortingParameter=" + sortingParameter +
-                ", frequency=" + frequency +
-                ", weight=" + weight +
-                ", restWeight=" + restWeight +
-                ", tableUsed=" + tableUsed +
-                ", updates=" + updates +
-                ", transcationalQuery=" + transcationalQuery +
-
-                ", query='" + query + '\'' +
-                '}';
+      return queryId ;
+//         return "Query{" +
+//                "queryId='" + queryId + '\''
+//                +
+//                ", queryCost=" + queryCost +
+//                ", sortingParameter=" + sortingParameter +
+//                ", frequency=" + frequency +
+//                ", weight=" + weight +
+//                ", restWeight=" + restWeight +
+//                ", tableUsed=" + tableUsed +
+//                ", updates=" + updates +
+//                ", transcationalQuery=" + transcationalQuery +
+//
+//                ", query='" + query + '\'' +
+//                '}';
     }
 
-    public List<String> getTableUsed() {
+    public Set<String> getTableUsed() {
         return tableUsed;
     }
 
-    public void setTableUsed(List<String> tableUsed) {
+    public void setTableUsed(Set<String> tableUsed) {
         this.tableUsed = tableUsed;
     }
 
