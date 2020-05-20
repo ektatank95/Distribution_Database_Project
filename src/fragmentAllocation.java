@@ -5,21 +5,25 @@ import java.util.Set;
 
 public class fragmentAllocation {
 
-    /*PlatformServiceResponse<Map<String, String>> response = new PlatformServiceResponse<>();
-    Map<String, String> timeZoneMap = new HashMap<>();
-    Set<String> availableZoneIds = ZoneId.getAvailableZoneIds();
-    if (CollectionUtils.isNotEmpty(availableZoneIds)) {
-        for (String zone : availableZoneIds) {
-            ZoneId zoneId = ZoneId.of(zone);
-            if (zone.contains(search)){
-                ZoneOffset offset = zoneId.getRules().getOffset(LocalDateTime.now());
-                timeZoneMap.put(zone, offset.getId());
-            }
-        }
-        response.setResponseObject(timeZoneMap);
-        response.setStatus(PlatformServiceCode.SUCCESS);*/
-
-
-
+// System.out.println("Before Sorting List of Query Information............");
+//         SelectQueryAnalysis.viewQueryListInfo(allqueryWithAttiributes);
+//
+//        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+//        System.out.println("After sorting List of Query Information..........");
+//         SelectQueryAnalysis.viewQueryListInfo(allSortedqueryWithAttiributes);
+//
+//        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+//        System.out.println("Database Node Information before Allocation Starts..........");
+//         DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeList);
+//
+//
+//         System.out.println("Database Node Information after Allocation done..........");
+//    //call  on actual algo
+//         DatabaseNodeAnalysis.viewDatabaseListInfo(databaseNodeListWithFragment);
+//
+//        System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------");
+//
+//
+//
 
 }

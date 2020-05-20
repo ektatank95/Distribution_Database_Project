@@ -82,22 +82,23 @@ public class SelectQueryAnalysis {
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println(queryId + "is not specified in format... format is query#frequencyof Query");
                 System.out.println("This query will be disgarded");
-                e.printStackTrace();
+               // e.printStackTrace();
                 continue;
             }
             Double queryCost = findQueryCost(query);
             //    List<String> allTables = findAllTableOfDatabase();
             //TODO will not work always--part and part supplier
-            List<String> tableRequiredByQuery = findTableRequiredByquery(query, allTables);
-            List<Query> updateQueryList = new ArrayList<>(0);
+            Set<String> tableRequired =new HashSet<>();
+            tableRequired = findTableRequiredByquery(query, allTables);
+        //    List<Query> updateQueryList = new ArrayList<>(0);
             //TODO uncomment after transtional query file is given
+            Set<Query> updateQuerySet =new HashSet<>();
             if (isTranstional == false) {
-
-                updateQueryList = findUpdateQueryReleted(tableRequiredByQuery, allUpdateQuery);
+                        updateQuerySet = findUpdateQueryReleted(tableRequired, allUpdateQuery);
             }
             Double weightOfQuery = findWeightOfQuery(frequency, queryCost);
             totalFrequencyCost = totalFrequencyCost + weightOfQuery;
-            queryInfo.add(new Query(queryId, query, queryCost, tableRequiredByQuery, frequency, updateQueryList, weightOfQuery, weightOfQuery, false, 0.0));
+        queryInfo.add(new Query(queryId, query, queryCost, tableRequired, frequency, updateQuerySet, weightOfQuery, weightOfQuery, false, 0.0));
         }
         for (int i = 0; i < queryInfo.size(); i++) {
             Query query = queryInfo.get(i);
@@ -119,7 +120,8 @@ public class SelectQueryAnalysis {
         //paramter shows table used by query and it's update
         Set<String> tableUsed = new HashSet<String>();
         tableUsed.addAll(query.getTableUsed());
-        List<Query> updateQueryList = query.getUpdates();
+        List<Query> updateQueryList = new ArrayList<>();
+        updateQueryList.addAll(query.getUpdates());
         if (updateQueryList != null) {
             for (int i = 0; i < updateQueryList.size(); i++) {
                 updateRestWeight = updateRestWeight + updateQueryList.get(i).getRestWeight();
@@ -139,23 +141,41 @@ public class SelectQueryAnalysis {
         return frequency * queryCost;
     }
 
-    private static List<Query> findUpdateQueryReleted(List<String> tableRequiredByQuery, List<Query> allUpdateQueryList) {
+    private static Set<Query> findUpdateQueryReleted(Set<String> tableRequiredByQuery, List<Query> allUpdateQueryList) {
 
         // List<Query> allUpdateQueryList = getAllqueryAttiributes(Configuration.TRANSACTION_QUERY_FILE);
-        List<Query> updatedQueryList = new ArrayList<>();
+        Set<Query> updatedQueryList = new HashSet<>();
+        List<String> allTableOfDatabase = findAllTableOfDatabase();
+      //  String s = "This is a sample sentence.";
+
         for (Query query : allUpdateQueryList) {
             query.setTranscationalQuery(true);
-            Set<String> result = tableRequiredByQuery.stream().distinct().filter(query.getTableUsed()::contains).collect(Collectors.toSet());
-            if (result.size() != 0) {
+
+            ///split query into words
+
+            String[] words = query.getQuery().split("\\s+");
+            for (int i = 0; i < words.length; i++) {
+                words[i] = words[i].replaceAll("[^\\w]", "");
+            }
+            String updateTable = null;
+            for(int i=0;i<words.length;i++){
+                if(allTableOfDatabase.contains(words[i])){
+                    updateTable=words[i];
+                    break;
+                }
+            }
+
+            if(tableRequiredByQuery.contains(updateTable)){
                 updatedQueryList.add(query);
             }
+
         }
 
         return updatedQueryList;
     }
 
-    private static List<String> findTableRequiredByquery(String query, List<String> allTables) {
-        List<String> tableList = new ArrayList<>();
+    private static Set<String> findTableRequiredByquery(String query, List<String> allTables) {
+        Set<String> tableList = new HashSet<>();
         for (int i = 0; i < allTables.size(); i++) {
             if (query.contains(allTables.get(i))) {
                 tableList.add(allTables.get(i));
