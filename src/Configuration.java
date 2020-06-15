@@ -12,4 +12,5 @@ public class Configuration {
     public static final  String CREATE_MODE="createMode";
     public static final  String TRANSACTIONAL_MODE="transactionMode";
     public static final String ANALYTICAL_MODE="analyticalMode";
+    public static final String COMPARE_DATABASE_INFO = "compare_database_info.txt";
 }

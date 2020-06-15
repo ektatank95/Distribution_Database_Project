@@ -111,7 +111,7 @@ public class Query implements Comparator<Query> {
                 ", sortingParameter=" + sortingParameter +
                 ", queryCost=" + queryCost +
                 ", tableUsed=" + tableUsed +
-               // ", frequency=" + frequency +
+                ", frequency=" + frequency +
                 ", updates=" + updates +
                 ", transcationalQuery=" + transcationalQuery +
                 //", query='" + query + '\'' +

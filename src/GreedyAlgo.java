@@ -34,6 +34,7 @@ public class GreedyAlgo {
                 databaseNode.setCurrentLoad(databaseNode.getScaledLoad());
             } else {
                 databaseNode.setCurrentLoad(databaseNode.getCurrentLoad() + query.getRestWeight());
+                query.setRestWeight(0.0);
                 allSortedqueryWithAttiributes.remove(query);
 
             }
@@ -148,7 +149,11 @@ public class GreedyAlgo {
         if (databaseNode.getQueryList() != null) {
             queryList.addAll(databaseNode.getQueryList());
         }
-        queryList.add(query);
+       // new Query(queryId, query, queryCost, tableRequired, frequency, updateQuerySet, weightOfQuery, weightOfQuery, false, 0.0));
+
+        Query q1=new Query(query.getQueryId(),query.getQuery(),query.getQueryCost(),query.getTableUsed(),
+                query.getFrequency(),query.getUpdates(),query.getWeight(),query.getRestWeight(),query.isTranscationalQuery(),query.getSortingParameter());
+        queryList.add(q1);
         databaseNode.setQueryList(queryList);
         return databaseNode;
     }

@@ -71,12 +71,12 @@ public class DatabaseNode {
     @Override
     public String toString() {
         return "DatabaseNode{" +
-                "serverID='" + serverID + '\'' +
-                ", currentLoad=" + currentLoad +
-                ", scaledLoad=" + scaledLoad +
-                ", queryList=" + queryList +
-                ", fragmentList=" + fragmentList +
-                ", capacity=" + capacity +
+                "serverID='" + this.serverID + '\'' +
+                ", currentLoad=" + this.currentLoad +
+                ", scaledLoad=" + this.scaledLoad +
+                ", queryList=" + this.queryList +
+                ", fragmentList=" + this.fragmentList +
+                ", capacity=" + this.capacity +
                 '}';
     }
 }
