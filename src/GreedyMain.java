@@ -44,7 +44,8 @@ public class GreedyMain {
         System.out.println();
         for(DatabaseNode databaseNode: databaseNodeListWithFragment){
             Set<Query> queryList=databaseNode.getQueryList();
-            List<String> qList=new ArrayList<>();
+            //List<String> qList=new ArrayList<>();
+            Set<String> qList= new HashSet<>();
             if(queryList!=null){
                 Iterator<Query> itr = queryList.iterator();
 
